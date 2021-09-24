@@ -81,7 +81,7 @@ function calcpi_omp1(num, numthreads)
 
   !$omp parallel private(sum_local,i,x,y,d) num_threads(numthreads)
   sum_local = 0
-  do i = 1, num
+  do i = 1, num / numthreads
     x = rand()
     y = rand()
     d = x**2 + y**2
@@ -100,9 +100,44 @@ function calcpi_omp1(num, numthreads)
 end 
 
 function calcpi_omp2(num, numthreads)
+  use omp_lib
   implicit none
-  real*8 :: calcpi_omp2
-  integer*4 :: num,numthreads
-! TO BE DONE 
-  calcpi_omp2 = 0
+  
+  real*8 :: calcpi_omp2,x,y,d, ran0, sum_global, sum_local
+  integer*4 :: num,numthreads,i,tid
+  ! TO BE DONE 
+
+  !$omp parallel private(sum_local,i,x,y,d,tid) num_threads(numthreads)
+  tid = omp_get_thread_num()
+
+  sum_local = 0
+  do i = 1, num / numthreads
+    x = ran0(tid)
+    y = ran0(tid)
+    d = x**2 + y**2
+
+    if ( d <= 1 ) then
+      sum_local = sum_local + 1
+    end if
+  end do
+
+  !$omp critical
+  sum_global = sum_global + sum_local
+  !$omp end critical
+  !$omp end parallel
+
+  calcpi_omp2 = sum_global / num * 4.0
 end 
+
+function ran0(seed)
+  integer*4 seed,ia,im,iq,ir,mask,k
+  real*8 ran0,am
+  parameter (ia=16807,im=2147483647,am=1./im, iq=127773,ir=2836,mask=123459876)
+  seed=ieor(seed,mask)
+  k=seed/iq
+  seed=ia*(seed-k*iq)-ir*k
+  if (seed.lt.0) seed=seed+im
+    ran0=am*seed
+    seed=ieor(seed,mask)
+  return
+end
