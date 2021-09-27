@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class Calculator {
 
-	private final Stack<Number> stack = new Stack();
+	private static final Stack<Double> stack = new Stack();
 
 	public static void expr() throws Exception {
 		term();
@@ -14,7 +14,13 @@ public class Calculator {
 				|| Scanner.la == Token.MINUS) {
 			Scanner.scan();
 			int op = Scanner.token.kind;
+
 			term();
+
+			switch (op) {
+				case Token.PLUS -> stack.push(stack.pop() + stack.pop());
+				case Token.MINUS -> stack.push(- stack.pop() + stack.pop());
+			}
 		}
 	}
 
@@ -23,7 +29,17 @@ public class Calculator {
 		while (Scanner.la == Token.TIMES || Scanner.la == Token.SLASH) {
 			Scanner.scan();
 			int op = Scanner.token.kind;
+
 			factor();
+
+			switch (op) {
+				case Token.TIMES -> stack.push(stack.pop() * stack.pop());
+				case Token.SLASH -> {
+					double a = stack.pop();
+					double b = stack.pop();
+					stack.push(b / a);
+				}
+			}
 		}
 	}
 
@@ -34,15 +50,16 @@ public class Calculator {
 			Scanner.check(Token.RBRACK);
 		} else if (Scanner.la == Token.NUMBER) {
 			Scanner.scan();
+			stack.push(Scanner.token.val);
 		}
 	}
 	
 	public static double start(String expr) throws Exception {
        	Scanner.init(expr);
        	Scanner.scan();
-       	expr();	
+       	expr();
        	// return result
-       	return 0;
+       	return stack.pop();
 	}    
 
 
