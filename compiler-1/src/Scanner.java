@@ -7,7 +7,20 @@ public class Scanner {
     static int col;
 
     private static void readName(Token t) {
+        t.kind = Token.IDENT;
+        t.str = "";
 
+        if (ch == 'E') {
+            t.str += ch;
+            nextCh();
+        } else if (ch == 'P') {
+            t.str += ch;
+            nextCh();
+            if (ch == 'I') {
+                t.str += ch;
+                nextCh();
+            }
+        }
     }
 
     private static void readNumber(Token t) {

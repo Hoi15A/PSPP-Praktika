@@ -18,8 +18,8 @@ public class Calculator {
 			term();
 
 			switch (op) {
-				case Token.PLUS -> stack.push(stack.pop() + stack.pop());
-				case Token.MINUS -> stack.push(- stack.pop() + stack.pop());
+				case Token.PLUS: stack.push(stack.pop() + stack.pop()); break;
+				case Token.MINUS: stack.push(- stack.pop() + stack.pop()); break;
 			}
 		}
 	}
@@ -33,11 +33,12 @@ public class Calculator {
 			factor();
 
 			switch (op) {
-				case Token.TIMES -> stack.push(stack.pop() * stack.pop());
-				case Token.SLASH -> {
+				case Token.TIMES: stack.push(stack.pop() * stack.pop()); break;
+				case Token.SLASH: {
 					double a = stack.pop();
 					double b = stack.pop();
 					stack.push(b / a);
+					break;
 				}
 			}
 		}
@@ -51,6 +52,13 @@ public class Calculator {
 		} else if (Scanner.la == Token.NUMBER) {
 			Scanner.scan();
 			stack.push(Scanner.token.val);
+		} else if (Scanner.la == Token.IDENT) {
+			Scanner.scan();
+			if ("E".equals(Scanner.token.str)) {
+				stack.push(Math.E);
+			} else if ("PI".equals(Scanner.token.str)) {
+				stack.push(Math.PI);
+			}
 		}
 	}
 	
