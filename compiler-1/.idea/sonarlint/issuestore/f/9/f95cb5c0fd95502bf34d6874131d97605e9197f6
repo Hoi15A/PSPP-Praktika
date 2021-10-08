@@ -1,0 +1,12 @@
+
+E
+java:S3740	"/Provide the parametrized type for this generic.(¥—°Ù
+f
+java:S1149	"PReplace the synchronized class "Stack" by an unsynchronized one such as "Deque".(¥—°Ù
+<	java:S131""Add a default case to this switch.(õÙÆ‚úÿÿÿÿ
+<	java:S131#""Add a default case to this switch.(õÙÆ‚úÿÿÿÿ
+S	java:S106K"9Replace this use of System.out or System.err by a logger.(¥Ñâÿÿÿÿÿ
+f
+java:S1301"KReplace this "switch" statement by "if" statements to increase readability.(õÙÆ‚úÿÿÿÿ
+f
+java:S1301#"KReplace this "switch" statement by "if" statements to increase readability.(õÙÆ‚úÿÿÿÿ
