@@ -17,7 +17,7 @@ interface ICalculator2 {
 }
 
 
-public class Calculator2 implements ICalculator, Emitter {
+public class Calculator2 implements ICalculator2, Emitter {
 
 	public static void expr() throws Exception {
 		term();
@@ -103,11 +103,11 @@ public class Calculator2 implements ICalculator, Emitter {
 	public static void main(String[] args) throws Exception {
 		Scanner.init("4.2 + 3.2*2");
 		Scanner.scan();
-		JWebAssembly.emitCode(ICalculator.class, new Calculator2());
+		JWebAssembly.emitCode(ICalculator2.class, new Calculator2());
 	}
 
 	@Override
-	public double calc() {
+	public double calc(double arg0) {
 		return 0;
 	}
 
@@ -115,6 +115,7 @@ public class Calculator2 implements ICalculator, Emitter {
 	public void emit() {
 		try {
 			program();
+			JWebAssembly.il.add(new WasmBlockInstruction(WasmBlockOperator.RETURN, null, 0));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
