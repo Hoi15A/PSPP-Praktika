@@ -130,13 +130,11 @@ waehlbar(W,M) :- voraussetzungen(M,W).
 %Aufgabe 3
 % M Modul
 % L Liste der wählbaren Module
-waehlbarList(L,M) :- fail.
+waehlbarList(L,M) :- setof(Y, waehlbar(Y,M), L).
 
 %Aufgabe 4
 % L liste der gewaelten Module
-% S Summe der ETCS Punkte
-punkte(L,S) :- fail.
-
-
-
-    
+% S Summe der ETCS 
+punkte([],S) :- S is 0.
+% punkte(L,S) :- sumlist(L, S).
+punkte([X|Y],S) :- punkte(Y, S1), ectsPunkte(X,Z), S is S1 + Z.
